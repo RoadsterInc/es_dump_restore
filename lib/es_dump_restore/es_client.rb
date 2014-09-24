@@ -60,6 +60,12 @@ module EsDumpRestore
     private
 
     def request(method, path, options={})
+      # Support user/password basic auth
+      if @base_uri.user
+        domain = @base_uri.to_s.gsub @base_uri.path, ''
+        @httpclient.set_auth(domain, @base_uri.user, @base_uri.password)
+      end
+      
       request_uri = @base_uri + path
       response = @httpclient.request(method, request_uri, options)
       MultiJson.load(response.content)
