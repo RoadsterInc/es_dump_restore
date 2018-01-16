@@ -24,7 +24,8 @@ module EsDumpRestore
 
     def start_scan(&block)
       scroll = request(:get, '_search',
-        query: { search_type: 'scan', scroll: '10m', size: 500 },
+        # Roadster ES5: changed from search_type: scan to sort: doc
+        query: { scroll: '10m', sort: '_doc', size: 500 },
         body: MultiJson.dump({ query: { match_all: {} } }) )
       total = scroll["hits"]["total"]
       scroll_id = scroll["_scroll_id"]
