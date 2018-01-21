@@ -11,7 +11,7 @@ module EsDumpRestore
       @httpclient = HTTPClient.new
       @index_name = index_name
 
-      @base_uri = type.nil? ? URI.parse(base_uri + "/" + index_name + "/") : URI.parse(base_uri + "/" + index_name + "/" + type + "/")
+      @base_uri = type.nil? ? URI.join(base_uri, index_name + "/") : URI.join(base_uri, index_name + "/" + type + "/")
     end
 
     def mappings
